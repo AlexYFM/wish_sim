@@ -1,0 +1,19 @@
+.roll {
+    border: solid;
+    width: 100px;
+    height: 100px;
+    background-color: transparent;
+    border-color: black;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.purple{
+    background-color: purple;
+}
+
+.gold{
+    background-color: gold;
+}
