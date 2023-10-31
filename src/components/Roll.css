@@ -16,4 +16,8 @@
 
 .gold{
     background-color: gold;
+    background-image: url('../assets/yelan.png');
+    background-size: cover;
+    background-position: center;
+    /* the image should only be shown if 5050 won or guarentee, make into own class */
 }
