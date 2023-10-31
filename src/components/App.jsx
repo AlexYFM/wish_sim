@@ -6,6 +6,9 @@ import Roll from './Roll'
 
 function App() {
   const [rolls, setRolls] = useState([])
+  const [golds, setGolds] = useState(0)
+  let pity = 0
+
   const chance = {
     gold: 1.6,
     purple: 13,
@@ -18,8 +21,18 @@ function App() {
       let p = 0
       for (const [rarity, prob] of Object.entries(chance)){
         p += prob
+        if(pity++===90){ // hit pity
+          ten.push('gold')
+          pity = 0
+          setGolds(golds+1)
+          break
+        }
         if (Math.random()*100 < p){
           ten.push(rarity)
+          if (rarity==='gold'){
+            pity = 0
+            setGolds(golds+1)
+          }
           break
         }
       }
@@ -30,7 +43,8 @@ function App() {
   return (
     <div style={{alignItems: 'center'}}>
       <h1>Roll Simulator</h1>
-      <div style={{display: 'flex'}}>
+      <h2>Number of 5 stars: {golds}</h2>
+      <div style={{display: 'flex', marginBottom: '1rem'}}>
         {rolls.map((roll) => {
           return  <Roll rarity={roll}/> 
         })}
