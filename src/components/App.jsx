@@ -53,8 +53,8 @@ function App() {
           return  <Roll rarity={roll} key={index}/> 
         })}
       </div>
-      <button onClick={() => roll(1)}>Roll 1</button>
-      <button onClick={() => roll(10)}>Roll 10</button>
+      <button onClick={rollOne}>Roll 1</button>
+      <button onClick={rollTen}>Roll 10</button>
     </div>
   )
 }
