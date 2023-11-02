@@ -20,6 +20,8 @@ function App() {
     let lastRoll = ''
     const delay = () => new Promise(resolve => setTimeout(resolve, 0))
     for(let i=0; i<n; i++){
+      await delay()
+      console.log(pity)
       let p = 0
       for (const [rarity, prob] of Object.entries(chance)){
         p += prob
@@ -34,11 +36,12 @@ function App() {
       if (lastRoll==='gold'){
         setPity(0)
         setGolds(g => g+1)
+        await delay()
       }
+      setRolls(prev => [...prev.slice(-9), lastRoll])
+      await delay()
     }
-    setRolls(prev => [...prev.slice(-9), lastRoll])
     setNumRolls(num => num + n )
-    await delay()
   }
   
   return (
@@ -53,8 +56,8 @@ function App() {
           return  <Roll rarity={roll} key={index}/> 
         })}
       </div>
-      <button onClick={rollOne}>Roll 1</button>
-      <button onClick={rollTen}>Roll 10</button>
+      <button onClick={() => roll(1)}>Roll 1</button>
+      <button onClick={() => roll(10)}>Roll 10</button>
     </div>
   )
 }
