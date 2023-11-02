@@ -16,12 +16,12 @@ function App() {
     blue: 85.4
   }
 
-  const rollOne = () => {
+  const rollOne = async () => {
     setNumRolls(n => n + 1)
     setPity(p => p + 1)
     if(pity===90){ // hit pity
       setRolls((prev) => {
-        return [...prev.slice(1), 'gold']
+        return [...prev.slice(-10), 'gold']
       })
       setPity(0)
       setGolds(golds+1)
@@ -32,7 +32,7 @@ function App() {
       p += prob
       if (Math.random()*100 < p){
         setRolls((prev) => {
-          return [...prev.slice(1), rarity]
+          return [...prev.slice(-10), rarity]
         })
         if (rarity==='gold'){
           setPity(0)
@@ -46,11 +46,9 @@ function App() {
   }
 
   function rollTen () {
-    let ten = []
     for(let i=0; i<10; i++){
-      ten.push(rollOne())
+      setTimeout(rollOne, 10)
     }
-    setRolls(ten)
   }
   
   return (
@@ -65,8 +63,8 @@ function App() {
           return  <Roll rarity={roll} key={index}/> 
         })}
       </div>
-      <button onClick={rollTen}>Roll 10</button>
       <button onClick={rollOne}>Roll 1</button>
+      <button onClick={rollTen}>Roll 10</button>
     </div>
   )
 }
