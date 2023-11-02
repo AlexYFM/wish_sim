@@ -16,30 +16,38 @@ function App() {
     blue: 85.4
   }
 
-  const roll = (n) => {
-    for(let i=0; i<n; i++){
-      setNumRolls(n => n + 1)
-      setPity(p => p + 1)
-      if(pity>=90){ // hit pity
+  const rollOne = async () => {
+    setNumRolls(n => n + 1)
+    setPity(p => p + 1)
+    if(pity===90){ // hit pity
+      setRolls((prev) => {
+        return [...prev.slice(-10), 'gold']
+      })
+      setPity(0)
+      setGolds(golds+1)
+      return 'gold'
+    }
+    let p = 0
+    for (const [rarity, prob] of Object.entries(chance)){
+      p += prob
+      if (Math.random()*100 < p){
         setRolls((prev) => {
-          return [...prev.slice(-10), 'gold']
+          return [...prev.slice(-10), rarity]
         })
-        setPity(0)
-        setGolds(golds+1)
-      }
-      let p = 0
-      for (const [rarity, prob] of Object.entries(chance)){
-        p += prob
-        if (Math.random()*100 < p){
-          setRolls((prev) => {
-            return [...prev.slice(-10), rarity]
-          })
-          if (rarity==='gold'){
-            setPity(0)
-            setGolds(golds+1)
-          }
+        if (rarity==='gold'){
+          setPity(0)
+          setGolds(golds+1)
         }
+        return rarity
       }
+    }
+    if (rolls.slice(-1)!=='gold')
+    return rolls.slice(-1)
+  }
+
+  function rollTen () {
+    for(let i=0; i<10; i++){
+      setTimeout(rollOne, 10)
     }
   }
   
@@ -55,8 +63,8 @@ function App() {
           return  <Roll rarity={roll} key={index}/> 
         })}
       </div>
-      <button onClick={() => roll(1)}>Roll 1</button>
-      <button onClick={() => roll(10)}>Roll 10</button>
+      <button onClick={rollOne}>Roll 1</button>
+      <button onClick={rollTen}>Roll 10</button>
     </div>
   )
 }
