@@ -16,31 +16,29 @@ function App() {
     blue: 85.4
   }
 
-  const roll = (n) => {
+  const roll = async (n) => {
+    let lastRoll = ''
+    const delay = () => new Promise(resolve => setTimeout(resolve, 0))
     for(let i=0; i<n; i++){
-      setNumRolls(n => n + 1)
-      setPity(p => p + 1)
-      if(pity>=90){ // hit pity
-        setRolls((prev) => {
-          return [...prev.slice(-10), 'gold']
-        })
-        setPity(0)
-        setGolds(golds+1)
-      }
       let p = 0
       for (const [rarity, prob] of Object.entries(chance)){
         p += prob
         if (Math.random()*100 < p){
-          setRolls((prev) => {
-            return [...prev.slice(-10), rarity]
-          })
-          if (rarity==='gold'){
-            setPity(0)
-            setGolds(golds+1)
-          }
+          lastRoll = rarity
+          break
         }
       }
+      setPity(p => p + 1)
+      await delay()
+      if (pity===90) lastRoll = 'gold'
+      if (lastRoll==='gold'){
+        setPity(0)
+        setGolds(g => g+1)
+      }
     }
+    setRolls(prev => [...prev.slice(-9), lastRoll])
+    setNumRolls(num => num + n )
+    await delay()
   }
   
   return (
