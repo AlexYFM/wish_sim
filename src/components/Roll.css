@@ -21,3 +21,8 @@
     background-position: center;
     /* the image should only be shown if 5050 won or guarentee, make into own class */
 }
+
+img{
+    height: 50vw;
+    width: 50vw;
+}
