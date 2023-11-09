@@ -8,8 +8,9 @@ function Roll (props) {
     const rarity = "roll " + props.rarity
     const modalRef = useRef();
     const standard = ['diluc.png', 'jean.png', 'mona.png', 'keqing.png', 'tighnari.png', 'qiqi.png', 'dehya.png']
+    // may need to just include a classname for each standard banner character, but I don't think I should need to do that
     const on_banner = rarity.includes('on_banner')
-    const off_banner = !on_banner && '../assets/' + standard[Math.floor(Math.random()*standard.length)]
+    const path = rarity.includes('gold') && '/assets/'  + (on_banner ?  'yelan.png ': standard[Math.floor(Math.random()*standard.length)])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -29,9 +30,9 @@ function Roll (props) {
     };
 
     return (
-        <div className={rarity} onClick={handleShow}>
+        <div className={rarity} onClick={handleShow} style={{backgroundImage: `url(${path})`}}>
             <Modal show={show} onHide={handleClose} centered>
-                <ModalBody ref={modalRef} className={rarity} style={{height: '50vw', width: '50vw'}}>
+                <ModalBody ref={modalRef} className={rarity} style={{height: '50vw', width: '50vw', backgroundImage: `url(${path})`}}>
                 </ModalBody>
             </Modal>
         </div>
