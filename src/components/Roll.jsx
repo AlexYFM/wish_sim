@@ -7,6 +7,9 @@ function Roll (props) {
     const [show, setShow] = useState(false);
     const rarity = "roll " + props.rarity
     const modalRef = useRef();
+    const standard = ['diluc.png', 'jean.png', 'mona.png', 'keqing.png', 'tighnari.png', 'qiqi.png', 'dehya.png']
+    const on_banner = rarity.includes('on_banner')
+    const off_banner = !on_banner && '../assets/' + standard[Math.floor(Math.random()*standard.length)]
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);

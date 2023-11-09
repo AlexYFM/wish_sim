@@ -10,6 +10,7 @@ function App() {
   const [golds, setGolds] = useState(0)
   const [numRolls, setNumRolls] = useState(0)
   const [pity, setPity] = useState(0)
+  const [guar, setGuar] = useState(false)
 
   const chance = {
     gold: 1.6,
@@ -21,6 +22,7 @@ function App() {
     let lastRoll = ''
     let localPity = pity
     let localRolls = []
+    let localG = guar
     for(let i=0; i<n; i++){
       let p = 0
       for (const [rarity, prob] of Object.entries(chance)){
@@ -34,21 +36,30 @@ function App() {
       if (lastRoll==='gold'){
         localPity = 0
         setGolds(g => g+1)
+        if (Math.random()>0.50 || localG){
+          localG = false
+          lastRoll += ' on_banner'
+        }
+        else localG = true
       }
       localRolls.push(lastRoll)
     }
     setRolls(prev => [...prev, ...localRolls].slice(-10))
     setNumRolls(num => num + n)
     setPity(localPity)
+    setGuar(localG)
   }
   
   return (
     <div style={{alignItems: 'center'}}>
       <h1>Roll Simulator</h1>
-      <h2>Number of 5 stars: {golds}</h2>
-      <h2>Number of rolls: {numRolls}</h2>
-      <h2>Pity: {pity}</h2>
-      <h3>Computed chance of a 5*: {numRolls ? (golds/numRolls*100).toFixed(2)+"%": "No rolls completed yet."}</h3>
+      <hr/>
+      <h6>Number of 5 stars: {golds}</h6>
+      <h6>Number of rolls: {numRolls}</h6>
+      <h6>Pity: {pity}</h6>
+      <h6>Guarantee: {guar ? "Yes" : "No"}</h6>
+      <h6>Computed chance of a 5*: {numRolls ? (golds/numRolls*100).toFixed(2)+"%": "No rolls completed yet."}</h6>
+      <hr/>
       <div style={{display: 'flex', marginBottom: '1rem'}}>
         {rolls.map((roll, index) => {
           return  <Roll rarity={roll} key={index}/> 
