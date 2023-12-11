@@ -57,6 +57,7 @@ function App() {
       <h6>Pity: {pity}</h6>
       <h6>Guarantee: {guar ? "Yes" : "No"}</h6>
       <h6>Computed chance of a 5*: {numRolls ? (golds/numRolls*100).toFixed(2)+"%": "No rolls completed yet."}</h6>
+      <h6>Probability of getting 5* before pity: {((1-(0.994)**(90-pity))*100).toFixed(2)+"%"}</h6>
       <hr/>
       <div style={{display: 'flex', marginBottom: '1rem'}}>
         {rolls.map((roll, index) => {
